@@ -14,3 +14,5 @@ client.query('SELECT * from comments;', (err, res) => {
   }
   client.end();
 });
+
+
