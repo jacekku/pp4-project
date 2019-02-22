@@ -6,6 +6,9 @@ function validate(e){
     console.log(e)
     const name=e.target[0].value
     const msg=e.target[1].value
+    if(name.length==0 || msg.length==0){
+        return false
+    }
     console.log(JSON.stringify({name,msg}))
     fetch('https://pp4-project.herokuapp.com/postmessage',{
         method:'POST',
