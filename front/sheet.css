@@ -1,0 +1,8 @@
+#chat-box{
+    overflow:auto;display:block;
+    width:100%;
+    height:50%;
+    border:1px solid gold;
+    min-height: 45%;
+    
+}
