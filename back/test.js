@@ -9,7 +9,7 @@ const client = new Client({
 client.connect();
 
 function getMessages(request, response) {
-  client.query('SELECT * from comments;', (err, result) => {
+  client.query('SELECT * from comments order by created_on desc;', (err, result) => {
     if (err) throw err;
     response.status(200).json(result.rows)
   });
@@ -17,9 +17,8 @@ function getMessages(request, response) {
 }
 function postMessage(request,response){
     const { name, msg } = request.body
-    console.log(name,msg)
-  
-    client.query(`INSERT INTO comments (comment_user, comment_text) VALUES ('${name}','${msg}')`, (error, results) => {
+
+    client.query(`INSERT INTO comments (comment_user, comment_text) VALUES ('${name.trim()}','${msg.trim()}')`, (error, results) => {
       if (error) {
         throw error
       }
