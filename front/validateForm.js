@@ -19,15 +19,20 @@ function validate(e){
         body: JSON.stringify({name,msg})
     }).then(response=>{
         // console.log(response.json())
+        refreshChatBox()
     }).catch(response=>{
         // console.log(response)
+        refreshChatBox()
     })
-    clearChatBox()
-    getComments()
+    
     return true
 }
 function clearChatBox(){
     chatBox.innerHTML=""
+}
+function refreshChatBox(){
+    clearChatBox()
+    getComments()
 }
 function onLoad(){
 form=document.getElementById("new-message")
@@ -35,8 +40,8 @@ form=document.getElementById("new-message")
 chatBox=document.getElementById("chat-box")
 form.addEventListener('submit',validate)
 //getButton.addEventListener('click',getComments)
-getComments()
-setInterval(getMessage,5000)
+refreshChatBox()
+setInterval(refreshChatBox,5000)
 }
 function getComments(){
     fetch("https://pp4-project.herokuapp.com/postgres",{
