@@ -1,4 +1,6 @@
-const { Client } = require('pg');
+const {
+  Client
+} = require('pg');
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -6,13 +8,26 @@ const client = new Client({
 });
 client.connect();
 
-function getComments(request, response){
-    let out=[]
-    
-    client.query('SELECT * from comments;', (err, result) => {
-        if (err) throw err;
-        response.status(200).json(result.rows)
-      });
-    
+function getMessages(request, response) {
+  client.query('SELECT * from comments;', (err, result) => {
+    if (err) throw err;
+    response.status(200).json(result.rows)
+  });
+
 }
-module.exports.getComments = getComments;
+function postMessage(request,response){
+    const { name, msg } = request.body
+  
+    client.query('INSERT INTO comments (comment_user, comment_message) VALUES ($1, $2)', [name, msg], (error, results) => {
+      if (error) {
+        throw error
+      }
+      console.log(results)
+      response.status(201)
+    })
+  }
+
+module.exports = {
+  getMessages,
+  postMessage
+};

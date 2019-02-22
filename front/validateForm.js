@@ -4,7 +4,22 @@ function validate(e){
     
     e.preventDefault()
     console.log(e)
-    return false
+    const user=e.target[0].value
+    const msg=e.target[1].value
+    console.log(JSON.stringify({user,msg}))
+    fetch('https://pp4-project.herokuapp.com/postmessage',{
+        method:'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({user,msg})
+    }).then(response=>{
+        console.log(response.json())
+    }).catch(response=>{
+        console.log(response)
+    })
+    console.log("gere")
+    return true
 }
 
 function onLoad(){
