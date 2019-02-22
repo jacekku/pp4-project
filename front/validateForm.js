@@ -3,13 +3,14 @@ window.addEventListener('load',onLoad)
 function validate(e){
     
     e.preventDefault()
-    console.log(e)
+    // console.log(e)
     const name=e.target[0].value
     const msg=e.target[1].value
     if(name.length==0 || msg.length==0){
+        console.log(name,msg)
         return false
     }
-    console.log(JSON.stringify({name,msg}))
+    // console.log(JSON.stringify({name,msg}))
     fetch('https://pp4-project.herokuapp.com/postmessage',{
         method:'POST',
         headers: {
@@ -17,14 +18,17 @@ function validate(e){
         },
         body: JSON.stringify({name,msg})
     }).then(response=>{
-        console.log(response.json())
+        // console.log(response.json())
     }).catch(response=>{
-        console.log(response)
+        // console.log(response)
     })
-    console.log("gere")
+    clearChatBox()
+    getComments()
     return true
 }
-
+function clearChatBox(){
+    chatBox.innerHTML=""
+}
 function onLoad(){
 form=document.getElementById("new-message")
 //getButton=document.getElementById("get")
