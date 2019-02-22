@@ -5,7 +5,7 @@ const client = new Client({
   ssl: true,
 });
 
-function getComments(){
+exports.getComments=()=>{
     let out=[]
     client.connect();
     client.query('SELECT * from comments;', (err, res) => {
