@@ -17,8 +17,9 @@ function getMessages(request, response) {
 }
 function postMessage(request,response){
     const { name, msg } = request.body
+    console.log(name,msg)
   
-    client.query('INSERT INTO comments (comment_user, comment_text) VALUES ($1, $2)', [name, msg], (error, results) => {
+    client.query(`INSERT INTO comments (comment_user, comment_text) VALUES (${name},${msg})`, (error, results) => {
       if (error) {
         throw error
       }
