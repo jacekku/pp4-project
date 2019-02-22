@@ -5,7 +5,7 @@ var bodyParser = require('body-parser')
 const app = express()
 const port = process.env.PORT||5000
 const postgres = require('./test.js')
-app.use(cors())
+app.use(cors({methods:"GET,POST"}))
 app.use(bodyParser.json())
 app.get('/', (req, res) => res.send('<h1>Hello World!</h1>'))
 app.get('/postgres', postgres.getMessages)
