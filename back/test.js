@@ -5,10 +5,10 @@ const client = new Client({
   ssl: true,
 });
 
-exports.getComments=()=>{
+async function getComments(){
     let out=[]
     client.connect();
-    client.query('SELECT * from comments;', (err, res) => {
+    await client.query('SELECT * from comments;', (err, res) => {
         if (err) throw err;
         for (let row of res.rows) {
             console.log(JSON.stringify(row))
@@ -19,3 +19,4 @@ exports.getComments=()=>{
       console.log(out)
     return out;
 }
+module.exports.getComments = getComments;
