@@ -13,7 +13,6 @@ getButton.addEventListener('click',getComments)
 }
 function getComments(){
     fetch("https://pp4-project.herokuapp.com/postgres",{
-        
     })
         .then((res)=>{
             console.log(res)
