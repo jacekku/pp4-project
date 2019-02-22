@@ -16,5 +16,6 @@ exports.getComments=()=>{
         }
         client.end();
       });
+      console.log(out)
     return out;
 }
