@@ -11,7 +11,8 @@ exports.getComments=()=>{
     client.query('SELECT * from comments;', (err, res) => {
         if (err) throw err;
         for (let row of res.rows) {
-          out.push(JSON.stringify(row));
+            console.log(JSON.stringify(row))
+            out.push(JSON.stringify(row));
         }
         client.end();
       });
