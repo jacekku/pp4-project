@@ -5,14 +5,15 @@ const client = new Client({
   ssl: true,
 });
 
-client.connect();
-
-client.query('SELECT * from comments;', (err, res) => {
-  if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
-  client.end();
-});
-
-
+function getComments(){
+    let out=[]
+    client.connect();
+    client.query('SELECT * from comments;', (err, res) => {
+        if (err) throw err;
+        for (let row of res.rows) {
+          out.push(JSON.stringify(row));
+        }
+        client.end();
+      });
+    return out;
+}
