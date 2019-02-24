@@ -55,7 +55,7 @@ function register(nick,pass){
         method:'POST',
         headers: {
             "Content-Type": "application/json",
-            "Authorize":btoa(JSON.stringify({"nick":nick,"pass":pass})),
+            "Authorize":btoa(JSON.stringify({"nickname":nick,"passwordUnhashed":pass})),
             "Access-Control-Allow-Origin":"*"
         },
     }).then(response=>{
