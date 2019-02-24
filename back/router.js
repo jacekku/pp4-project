@@ -28,10 +28,14 @@ function register(request,response){
   console.log(`data (${nickname},${passwordUnhashed})`)
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
   console.log(`inserting (${nickname},${password},${salt})`)
-  client.query(`INSERT INTO users (nickname,password,salt) VALUES (${nickname},${password},${salt})`)
-  response.status(201)
+  client.query(`INSERT INTO users (nickname,password,salt) VALUES (${nickname},${password},${salt})`,
+    (err, result) => {
+      if (err) throw err;
+      response.status(201)
+    });
+  }
 
-}
+
 module.exports = {
   getMessages,
   postMessage,
