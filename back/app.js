@@ -13,4 +13,4 @@ app.get('/postgres', router.getMessages)
 // app.post('/postmessage', router.postMessage)
 app.post('/register', router.register)
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Server listening at port: ${port}!`))
