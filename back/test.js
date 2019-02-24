@@ -16,16 +16,9 @@ function getMessages(request, response) {
 
 }
 function postMessage(request,response){
-    const { name, msg } = request.body
-
-    client.query(`INSERT INTO comments (comment_user, comment_text) VALUES ('${name.trim()}','${msg.trim()}')`, (error, results) => {
-      if (error) {
-        throw error
-      }
-      console.log(results)
-      response.status(201)
-    })
-  }
+    console.log(request)
+    response.status(200)
+}
 
 module.exports = {
   getMessages,
