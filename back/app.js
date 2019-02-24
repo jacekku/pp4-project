@@ -10,6 +10,7 @@ app.use(cors({methods:"GET,POST"}))
 app.use(bodyParser.json())
 app.get('/', (req, res) => res.send('<h1>Hello World!</h1>'))
 app.get('/postgres', router.getMessages)
+app.get('/user/:nickname', router.getNickname)
 // app.post('/postmessage', router.postMessage)
 app.post('/register', router.register)
 

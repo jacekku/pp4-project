@@ -22,23 +22,28 @@ function postMessage(request,response){
 function register(request,response){
   const data = request.headers.authorize
   const text = Buffer.from(data, 'base64').toString('ascii')
-  console.log(text)
-  console.log(JSON.parse(text))
   const {nickname,passwordUnhashed} = JSON.parse(text)
-  console.log(`data (${nickname},${passwordUnhashed})`)
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
-  console.log(`inserting (${nickname},${password},${salt})`)
   client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
     (err, result) => {
       if (err) throw err;
       response.status(201)
     });
+    response.status(201)
   }
-
+function getNickname(request,response){
+  const nickname = request.params.nickname
+  client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
+    (err, result) => {
+      if (err) throw err;
+      response.status(200).json(result.rows)
+    });
+}
 
 module.exports = {
   getMessages,
   postMessage,
-  register
+  register,
+  getNickname
 };
 

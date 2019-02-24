@@ -11,26 +11,37 @@ function validate(e){
     //unhashedPassword
     const password1=e.target[1].value
     const password2=e.target[2].value
+    if(alreadyRegistered(nickname)){
+        return false;
+    }
     if(isEmpty(nickname,password1,password2)){
-        feedback.text="fill the fields"
+        feedback.innerHTML="fill the fields"
         return false 
     }
     const passStatus=checkPassword(password1,password2)
     if(passStatus=="diff"){
-        feedback.text="passwords need to be the same"
+        feedback.innerHTML="passwords need to be the same"
         return false
     }
     if(passStatus=="short"){
-        feedback.text="password need to have at least 8 characters"
+        feedback.innerHTML="password need to have at least 8 characters"
         return false
     }
     if(passStatus=="missing"){
-        feedback.text="password need to contain at least one number,letter(uppercase),letter(lowercase),special character"
+        feedback.innerHTML="password need to contain at least one number,letter(uppercase),letter(lowercase),special character"
         return false
     }
 
     register(nickname, password1)
     return true
+}
+function alreadyRegistered(nick){
+    fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
+    .then(response=>{
+        console.log(response.json())
+    }).catch(response=>{
+        console.log(response)
+    })
 }
 function isEmpty(nickname,password1,password2){
     return  nickname.length==0 ||
