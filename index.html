@@ -3,41 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="726149532984-38hi6p97qq9gk1th2h21nvmkd4ejnisc.apps.googleusercontent.com">
-
-
     <title>Movie List</title>
     <script src="front/validateForm.js"></script>
     <link rel="stylesheet" href="front/sheet.css">
 </head>
 
 <body>
- <div class="g-signin2" data-onsuccess="onSignIn"></div>
- <a href="#" onclick="signOut();">Sign out</a>
-<script>
+<form id="login-form">
 
-</script>
-    <div id="chat-box" >
-
-    </div>
-    <form id="new-message">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="user_name">
-        </div>
-        <div>
-            <label for="msg">Message:</label>
-            <textarea id="msg" name="user_message"></textarea>
-        </div>
-        <div class="button">
-            <button type="submit">Send your message</button>
-        </div>
-    </form>
-    <!--
-    <button id="get">Get messages</button>
--->
+    <label>Nickname:</label>
+    <input id="login" type="text" autocomplete="nickname">
+    <label>Password:</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <input type="submit">
+</form>
 </body>
 
 </html>
