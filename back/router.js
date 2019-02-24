@@ -24,6 +24,7 @@ function register(request,response){
   const text = Buffer.from(data, 'base64').toString('ascii')
   const {nickname,passwordUnhashed} = JSON.parse(text)
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
+  console.log(`inserting (${nickname},${password},${salt})`)
   client.query(`INSERT INTO users (nickname,password,salt) VALUES (${nickname},${password},${salt})`)
   response.status(201)
 
