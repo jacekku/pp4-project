@@ -1,57 +1,81 @@
-window.addEventListener('load',onLoad)
-function onLoad(){
+window.addEventListener('load', onLoad)
+
+function onLoad() {
     form = document.getElementById('register-form')
-    form.addEventListener('submit',validate)
+    form.addEventListener('submit', validate)
     feedback = document.getElementById('feedback')
 }
 
-function validate(e){
+function validate(e) {
     e.preventDefault()
-    const nickname=e.target[0].value
+    const nickname = e.target[0].value
     //unhashedPassword
-    const password1=e.target[1].value
-    const password2=e.target[2].value
-    if(alreadyRegistered(nickname)){
+    const password1 = e.target[1].value
+    const password2 = e.target[2].value
+    console.log(nickname, password1, password2)
+    feedback.innerHTML = ""
+    if (isEmpty(nickname, password1, password2)) {
+        feedback.innerHTML = "fill the fields"
+        return false
+    }
+    let reg = alreadyRegistered(nickname)
+    console.log(reg)
+    if (reg == "error") {
+        feedback.innerHTML = "server error"
+        return false
+    }
+    if (reg) {
+        feedback.innerHTML = "already used nickname"
         return false;
     }
-    if(isEmpty(nickname,password1,password2)){
-        feedback.innerHTML="fill the fields"
-        return false 
-    }
-    const passStatus=checkPassword(password1,password2)
-    if(passStatus=="diff"){
-        feedback.innerHTML="passwords need to be the same"
+    const passStatus = checkPassword(password1, password2)
+    if (passStatus == "diff") {
+        feedback.innerHTML = "passwords need to be the same"
         return false
     }
-    if(passStatus=="short"){
-        feedback.innerHTML="password need to have at least 8 characters"
+    if (passStatus == "short") {
+        feedback.innerHTML = "password need to have at least 8 characters"
         return false
     }
-    if(passStatus=="missing"){
-        feedback.innerHTML="password need to contain at least one number,letter(uppercase),letter(lowercase),special character"
+    if (passStatus == "missing") {
+        feedback.innerHTML = "password need to contain at least one number,letter(uppercase),letter(lowercase),special character"
         return false
     }
 
     register(nickname, password1)
+    window.location.href = 'http://127.0.0.1:5500'
     return true
 }
-function alreadyRegistered(nick){
+
+function alreadyRegistered(nick) {
     fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
-    .then(response=>{
-        console.log(response.json())
-    }).catch(response=>{
-        console.log(response)
-    })
+        .then(response => {
+            if (response.status === 200 || response.status==304) {
+                response.json().then(data => {
+                    console.log(data)
+                    if (data.length != 0) return true
+                    return false
+                })
+            }else {
+                return "error"
+            }
+        }).catch(response => {
+            console.log(response)
+            return "error"
+        })
+    return "error"
 }
-function isEmpty(nickname,password1,password2){
-    return  nickname.length==0 ||
-            password1.length==0||
-            password2.length==0            
+
+function isEmpty(nickname, password1, password2) {
+    return nickname.length == 0 ||
+        password1.length == 0 ||
+        password2.length == 0
 }
-function checkPassword(pass1,pass2){
-    if(pass1!=pass2)    return "diff"
-    if(pass1.length<10)  return "short"
-    let pattern="^["
+
+function checkPassword(pass1, pass2) {
+    if (pass1 != pass2) return "diff"
+    if (pass1.length < 10) return "short"
+    let pattern = "^["
     pattern += "0-9"
     pattern += "a-z"
     pattern += "A-Z"
@@ -61,17 +85,20 @@ function checkPassword(pass1,pass2){
     return re.test(pass1)
 }
 
-function register(nick,pass){
-    fetch('https://pp4-project.herokuapp.com/register',{
-        method:'POST',
+function register(nick, pass) {
+    fetch('https://pp4-project.herokuapp.com/register', {
+        method: 'POST',
         headers: {
             "Content-Type": "application/json",
-            "Authorize":btoa(JSON.stringify({"nickname":nick,"passwordUnhashed":pass})),
-            "Access-Control-Allow-Origin":"*"
+            "Authorize": btoa(JSON.stringify({
+                "nickname": nick,
+                "passwordUnhashed": pass
+            })),
+            "Access-Control-Allow-Origin": "*"
         },
-    }).then(response=>{
+    }).then(response => {
         console.log(response.json())
-    }).catch(response=>{
+    }).catch(response => {
         console.log(response)
     })
     return true
