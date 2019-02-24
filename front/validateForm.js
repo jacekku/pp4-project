@@ -1,29 +1,26 @@
-
 window.addEventListener('load',onLoad)
 function validate(e){
-    
     e.preventDefault()
-    // console.log(e)
-    const name=e.target[0].value
-    const msg=e.target[1].value
-    if(name.length==0 || msg.length==0){
-        console.log(name,msg)
+    console.log(e)
+    const nickname=e.target[0].value
+    //unhashedPassword
+    const password=e.target[1].value
+    console.log(nickname,password)
+    if(nickname.length==0 || password.length==0){
         return false
     }
-    // console.log(JSON.stringify({name,msg}))
+    console.log("here")
     fetch('https://pp4-project.herokuapp.com/postmessage',{
         method:'POST',
         headers: {
             "Content-Type": "application/json",
+            "Authorize":"costam"
         },
-        body: JSON.stringify({name,msg})
     }).then(response=>{
-        // console.log(response.json())
-        refreshChatBox()
+        console.log(response.json())
     }).catch(response=>{
-        // console.log(response)
-        refreshChatBox()
-    })
+        console.log(response)
+        })
     
     return true
 }
@@ -52,13 +49,8 @@ function refreshChatBox(){
     getComments()
 }
 function onLoad(){
-form=document.getElementById("new-message")
-//getButton=document.getElementById("get")
-chatBox=document.getElementById("chat-box")
+    form= document.getElementById('login-form')
 form.addEventListener('submit',validate)
-//getButton.addEventListener('click',getComments)
-// refreshChatBox()
-// setInterval(refreshChatBox,5000)
 }
 function getComments(){
     fetch("https://pp4-project.herokuapp.com/postgres",{
