@@ -16,7 +16,10 @@ function getMessages(request, response) {
 
 }
 function postMessage(request,response){
-    console.log(request)
+    console.log(request.headers.authorize)
+    let data=request.headers.authorize
+    let buff = new Buffer(data, 'base64');  
+    let text = buff.toString('ascii');
     response.status(200)
 }
 
