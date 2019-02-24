@@ -26,8 +26,7 @@ function register(request,response){
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
   client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
     (err, result) => {
-      if (err) throw err;
-      response.status(201)
+      if (err)throw err
     });
     response.status(201)
   }
