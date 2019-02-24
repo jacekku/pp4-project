@@ -22,6 +22,8 @@ function postMessage(request,response){
 function register(request,response){
   const data = request.headers.authorize
   const text = Buffer.from(data, 'base64').toString('ascii')
+  console.log(text)
+  console.log(JSON.parse(text))
   const {nickname,passwordUnhashed} = JSON.parse(text)
   console.log(`data (${nickname},${passwordUnhashed})`)
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
