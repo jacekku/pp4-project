@@ -10,11 +10,13 @@ function validate(e){
         return false
     }
     console.log("here")
+
     fetch('https://pp4-project.herokuapp.com/postmessage',{
         method:'POST',
         headers: {
             "Content-Type": "application/json",
-            "Authorize":"costam"
+            "Authorize":btoa(JSON.stringify({"nick":nickname,"pass":password})),
+            "Access-Control-Allow-Origin":"*"
         },
     }).then(response=>{
         console.log(response.json())
