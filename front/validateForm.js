@@ -56,8 +56,8 @@ form=document.getElementById("new-message")
 chatBox=document.getElementById("chat-box")
 form.addEventListener('submit',validate)
 //getButton.addEventListener('click',getComments)
-refreshChatBox()
-setInterval(refreshChatBox,5000)
+// refreshChatBox()
+// setInterval(refreshChatBox,5000)
 }
 function getComments(){
     fetch("https://pp4-project.herokuapp.com/postgres",{
