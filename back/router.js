@@ -69,12 +69,26 @@ function checkLogin(request,response){
     }
   })
 }
-
+function getToken(request,response){
+  const data = request.headers.authorize
+  const text = Buffer.from(data, 'base64').toString('ascii')
+  const {nickname,token} = JSON.parse(text)
+  client.query(`SELECT token FROM users where nickname = '${nickname}' and token = '${token}'`,(err,result)=>{
+    if (err) {
+      response.sendStatus(500)
+      console.error(err)
+    }else{
+      if(result.rows.length==0){response.sendStatus(401)}
+      else response.status(200).
+    }
+  })
+}
 module.exports = {
   getMessages,
   postMessage,
   register,
   getNickname,
-  checkLogin
+  checkLogin,
+  getToken
 };
 
