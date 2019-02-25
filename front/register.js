@@ -17,8 +17,8 @@ async function validate(e) {
         feedback.innerHTML = "fill the fields"
         return false
     }
-    let reg=await alreadyRegistered(nickname)
-    if(reg){
+    let reg = await alreadyRegistered(nickname)
+    if (reg) {
         feedback.innerHTML = "already in db"
         return false
     }
@@ -36,10 +36,10 @@ async function validate(e) {
         return false
     }
     let f = await register(nickname, password1)
-    if(f){
-        let token = await getSessionToken(nickname)
-        localStorage.setItem("token",token)
-        window.location.href = 'http://127.0.0.1:5500'
+    if (f) {
+        // let token = await getSessionToken(nickname)
+        // localStorage.setItem("token",token)
+        // window.location.href = 'http://127.0.0.1:5500'
     }
 }
 
@@ -73,8 +73,12 @@ async function register(nick, pass) {
             })),
             "Access-Control-Allow-Origin": "*"
         },
-    }).then(response => {
+    }).then(async response => {
         //save to localStorage here
+        let token
+        await response.json().then(r => token=r.token)
+        localStorage.setItem('token', token)
+        localStorage.setItem('user',nick)
         console.info(response)
     }).catch(response => {
         // console.info(response)
