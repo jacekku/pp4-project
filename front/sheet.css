@@ -6,6 +6,6 @@
     min-height: 45%;
     
 }
-form > *{
+div *{
     display: block;
 }
