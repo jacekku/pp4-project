@@ -73,9 +73,9 @@ async function register(nick, pass) {
             "Access-Control-Allow-Origin": "*"
         },
     }).then(response => {
-        console.log(response)
+        console.info(response)
     }).catch(response => {
-        console.log(response)
+        console.info(response)
     })
     return true
 }

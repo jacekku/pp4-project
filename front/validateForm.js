@@ -1,16 +1,12 @@
 window.addEventListener('load',onLoad)
 function validate(e){
     e.preventDefault()
-    console.log(e)
     const nickname=e.target[0].value
     //unhashedPassword
     const password=e.target[1].value
-    console.log(nickname,password)
     if(nickname.length==0 || password.length==0){
         return false
     }
-    console.log("here")
-
     fetch('https://pp4-project.herokuapp.com/postmessage',{
         method:'POST',
         headers: {
