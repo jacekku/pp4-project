@@ -23,6 +23,17 @@ function postMessage(request,response){
   response.sendStatus(501)
 }
 function register(request,response){
+  client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
+    (err, result) => {
+      if (err){
+        response.sendStatus(503)
+        console.error(err)
+      }
+      if(result.rows.length!=0){
+        response.sendStatus(409)
+      }
+    })
+
   const data = request.headers.authorize
   const text = Buffer.from(data, 'base64').toString('ascii')
   const {nickname,passwordUnhashed} = JSON.parse(text)
