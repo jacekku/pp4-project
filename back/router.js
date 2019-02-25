@@ -43,7 +43,9 @@ function register(request, response) {
         console.error(err)
         return false
       }
-      response.status(201).json({'token':newToken})
+      response.status(201).json({
+        'token': newToken
+      })
     });
 }
 
@@ -79,7 +81,16 @@ function checkLogin(request, response) {
       } = result.rows[0]
       res = passwordManage.checkPassword(passwordUnhashed, password, salt)
       if (res) {
-        response.sendStatus(200)
+        const newToken = passwordManage.generateToken()
+        client.query(`UPDATE users SET token = '${newToken}' WHERE user = '${nickname}'`, (err, res) => {
+          if (err) {
+            response.sendStatus(500)
+            console.error(err)
+          }
+          response.status(200).json({
+            'token': newToken
+          })
+        })
       } else {
         response.sendStatus(401)
       }
