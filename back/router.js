@@ -11,7 +11,10 @@ client.connect();
 
 function getMessages(request, response) {
   client.query('SELECT * from comments order by created_on asc;', (err, result) => {
-    if (err) throw err;
+    if (err) {
+      response.sendStatus(503)
+      console.error(err)
+    }
     response.status(200).json(result.rows)
   });
 
@@ -26,7 +29,10 @@ function register(request,response){
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
   client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
     (err, result) => {
-      if (err)throw err
+      if (err){
+        response.sendStatus(503)
+        console.error(err)
+      }
       response.sendStatus(201)
     });
   }
@@ -36,6 +42,7 @@ function getNickname(request,response){
     (err, result) => {
       if (err) {
         response.sendStatus(503)
+        console.error(err)
       }
       if(result.rows.length==0){
         response.sendStatus(404)
@@ -50,9 +57,9 @@ function checkLogin(request,response){
   const {nickname,passwordUnhashed} = JSON.parse(text)
   client.query(`SELECT password,salt FROM users where nickname = ${nickname}`,
   (err,result)=>{
-    if(err){
-      response.sendStatus(401)
-      console.log(err)
+    if (err) {
+      response.sendStatus(503)
+      console.error(err)
     }
     console.log(result.rows)
     res = passwordManage.checkPassword(passwordUnhashed,result.rows.password,result.rows.salt)
