@@ -61,7 +61,6 @@ function checkLogin(request,response){
       console.error(err)
     }
     const {password,salt}=result.rows[0]
-    console.log(password,salt)
     res = passwordManage.checkPassword(passwordUnhashed,password,salt)
     if(res){
       response.sendStatus(200)
