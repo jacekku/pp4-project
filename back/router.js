@@ -17,7 +17,7 @@ function getMessages(request, response) {
 
 }
 function postMessage(request,response){
-  response.status(501)
+  response.sendStatus(501)
 }
 function register(request,response){
   const data = request.headers.authorize
@@ -27,14 +27,16 @@ function register(request,response){
   client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
     (err, result) => {
       if (err)throw err
+      response.sendStatus(201)
     });
-    response.sendStatus(201)
   }
 function getNickname(request,response){
   const nickname = request.params.nickname
   client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
     (err, result) => {
-      if (err) throw err;
+      if (err) {
+        response.sendStatus(404)
+      }
       response.status(200).json(result.rows)
     });
 }
