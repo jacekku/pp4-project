@@ -32,9 +32,11 @@ function register(request,response){
     if (err){
       response.sendStatus(500)
       console.error(err)
+      return false
     }
     if(result.rows.length!=0){
       response.sendStatus(409)
+      return false
     }
   })
   client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
@@ -42,6 +44,7 @@ function register(request,response){
       if (err){
         response.sendStatus(500)
         console.error(err)
+        return false
       }
       response.sendStatus(201)
     });
