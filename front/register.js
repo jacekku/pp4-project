@@ -6,7 +6,7 @@ function onLoad() {
     feedback = document.getElementById('feedback')
 }
 
-async function validate(e) {
+function validate(e) {
     e.preventDefault()
     const nickname = e.target[0].value
     //unhashedPassword
@@ -18,16 +18,19 @@ async function validate(e) {
         feedback.innerHTML = "fill the fields"
         return false
     }
-    let reg =  await alreadyRegistered(nickname)
-    console.log(reg)
-    if (reg == "error") {
-        feedback.innerHTML = "server error"
-        return false
-    }
-    if (reg) {
+    alreadyRegistered(nickname).then(res=>{
+        //if registered
         feedback.innerHTML = "already used nickname"
-        return false;
-    }
+        return false
+    }).catch(err=>{
+        //if not registered do nothing
+        if(!err){}
+        else {
+            console.error(err)
+            feedback.innerHTML = "server error"
+            return false
+        }
+    })
     const passStatus = checkPassword(password1, password2)
     if (passStatus == "diff") {
         feedback.innerHTML = "passwords need to be the same"
@@ -43,27 +46,25 @@ async function validate(e) {
     }
 
     register(nickname, password1)
-    window.location.href = 'http://127.0.0.1:5500'
+    // window.location.href = 'http://127.0.0.1:5500'
     return true
 }
 
 function alreadyRegistered(nick) {
+    return new Promise((resolve,reject)=>{
     fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
         .then(response => {
-            if (response.status === 200 || response.status==304) {
-                response.json().then(data => {  
-                    console.log(data)
-                    if (data.length != 0) return true
-                    return false
-                })
-            }else {
-                return "error"
+            if(response.status == 200){
+                return resolve(true)
+            }
+            if(response.status == 404){
+                return resolve(false)
             }
         }).catch(response => {
             console.log(response)
-            return "error"
+            return reject("error")
         })
-    return "error"
+    })
 }
 
 function isEmpty(nickname, password1, password2) {
