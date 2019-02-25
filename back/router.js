@@ -30,23 +30,23 @@ function register(request,response){
   client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
   (err, result) => {
     if (err){
-      response.sendStatus(500)
+      response.sendStatus(500).end()
       console.error(err)
       return false
     }
     if(result.rows.length!=0){
-      response.sendStatus(409)
+      response.sendStatus(409).end()
       return false
     }
   })
   client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
     (err, result) => {
       if (err){
-        response.sendStatus(500)
+        response.sendStatus(500).end()
         console.error(err)
         return false
       }
-      response.sendStatus(201)
+      response.sendStatus(201).end()
     });
   }
 function getNickname(request,response){
