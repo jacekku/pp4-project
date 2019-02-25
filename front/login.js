@@ -4,6 +4,7 @@ window.addEventListener('load', onload)
 function onload() {
     form = document.getElementById('login-form')
     form.addEventListener('submit',val)
+    feedback=document.getElementById('feedback')
     console.log(form)
 }
 async function val(e){
@@ -12,7 +13,7 @@ async function val(e){
     const password = e.target[1].value
     let reg = await alreadyRegistered(nickname)
     console.log(`reg${reg}`)
-    if(reg){login(nickname,password)}
+    if(reg){await login(nickname,password)}
     else {feedback.innerHTML='wrong user or password'}
 }
 
