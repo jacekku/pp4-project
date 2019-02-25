@@ -43,7 +43,7 @@ function checkLogin(request,response){
   const data = request.headers.authorize
   const text = Buffer.from(data, 'base64').toString('ascii')
   const {nickname,passwordUnhashed} = JSON.parse(text)
-  client.query(`SELECT password,salt FROM users where nickname = ${nickname}`),
+  client.query(`SELECT password,salt FROM users where nickname = ${nickname}`,
   (err,result)=>{
     if(err){
       response.status(401)
@@ -56,7 +56,7 @@ function checkLogin(request,response){
     }else{
       response.status(401)
     }
-  }
+  })
 }
 
 module.exports = {
