@@ -27,18 +27,7 @@ function register(request,response){
   const text = Buffer.from(data, 'base64').toString('ascii')
   const {nickname,passwordUnhashed} = JSON.parse(text)
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
-  client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
-  (err, result) => {
-    if (err){
-      response.sendStatus(500)
-      console.error(err)
-      return false
-    }
-    if(result.rows.length!=0){
-      response.sendStatus(409)
-      return false
-    }else{
-      client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
+  client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
     (err, result) => {
       if (err){
         response.sendStatus(500)
@@ -47,9 +36,6 @@ function register(request,response){
       }
       response.sendStatus(201)
     });
-    }
-  })
-  
   }
 function getNickname(request,response){
   const nickname = request.params.nickname

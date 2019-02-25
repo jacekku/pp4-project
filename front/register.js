@@ -18,19 +18,11 @@ function validate(e) {
         feedback.innerHTML = "fill the fields"
         return false
     }
-    alreadyRegistered(nickname).then(res=>{
-        //if registered
-        feedback.innerHTML = "already used nickname"
+    let reg=alreadyRegistered(nickname)
+    if(reg){
+        feedback.innerHTML = "already in db"
         return false
-    }).catch(err=>{
-        //if not registered do nothing
-        if(!err){}
-        else {
-            console.error(err)
-            feedback.innerHTML = "server error"
-            return false
-        }
-    })
+    }
     const passStatus = checkPassword(password1, password2)
     if (passStatus == "diff") {
         feedback.innerHTML = "passwords need to be the same"
@@ -50,21 +42,12 @@ function validate(e) {
     return true
 }
 
-function alreadyRegistered(nick) {
-    return new Promise((resolve,reject)=>{
-    fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
-        .then(response => {
-            if(response.status == 200){
-                return resolve(true)
-            }
-            if(response.status == 404){
-                return resolve(false)
-            }
-        }).catch(response => {
-            console.log(response)
-            return reject("error")
-        })
-    })
+async function alreadyRegistered(nick) {
+    let res=await fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
+    console.log(res)
+    if(res.status==200)return true
+    if(res.status==404)return false
+    if(res.status==500)return new Error("internal server error")
 }
 
 function isEmpty(nickname, password1, password2) {
