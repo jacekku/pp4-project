@@ -28,7 +28,7 @@ function register(request,response){
     (err, result) => {
       if (err)throw err
     });
-    response.status(201)
+    response.sendStatus(201)
   }
 function getNickname(request,response){
   const nickname = request.params.nickname
@@ -46,14 +46,15 @@ function checkLogin(request,response){
   client.query(`SELECT password,salt FROM users where nickname = ${nickname}`,
   (err,result)=>{
     if(err){
-      return response.status(401)
+      response.sendStatus(401)
+      console.log(err)
     }
     console.log(result.rows)
     res = passwordManage.checkPassword(passwordUnhashed,result.rows.password,result.rows.salt)
     if(res){
-      return response.status(200)
+      response.sendStatus(200)
     }else{
-      return response.status(401)
+      response.sendStatus(401)
     }
   })
 }
