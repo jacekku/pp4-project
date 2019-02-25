@@ -47,7 +47,7 @@ function checkLogin(request,response){
   (err,result)=>{
     if(err){
       response.status(401)
-      //throw err;
+      throw err;
     }
     console.log(result.rows)
     res = passwordManage.checkPassword(passwordUnhashed,result.rows.password,result.rows.salt)
