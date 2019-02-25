@@ -6,7 +6,7 @@ function onLoad() {
     feedback = document.getElementById('feedback')
 }
 
-function validate(e) {
+async function validate(e) {
     e.preventDefault()
     const nickname = e.target[0].value
     //unhashedPassword
@@ -18,7 +18,7 @@ function validate(e) {
         feedback.innerHTML = "fill the fields"
         return false
     }
-    let reg = alreadyRegistered(nickname)
+    let reg =  await alreadyRegistered(nickname)
     console.log(reg)
     if (reg == "error") {
         feedback.innerHTML = "server error"
@@ -51,7 +51,7 @@ function alreadyRegistered(nick) {
     fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
         .then(response => {
             if (response.status === 200 || response.status==304) {
-                response.json().then(data => {
+                response.json().then(data => {  
                     console.log(data)
                     if (data.length != 0) return true
                     return false
