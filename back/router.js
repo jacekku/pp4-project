@@ -46,15 +46,14 @@ function checkLogin(request,response){
   client.query(`SELECT password,salt FROM users where nickname = ${nickname}`,
   (err,result)=>{
     if(err){
-      response.status(401)
-      throw err;
+      return response.status(401)
     }
     console.log(result.rows)
     res = passwordManage.checkPassword(passwordUnhashed,result.rows.password,result.rows.salt)
     if(res){
-      response.status(200)
+      return response.status(200)
     }else{
-      response.status(401)
+      return response.status(401)
     }
   })
 }
