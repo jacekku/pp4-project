@@ -18,5 +18,4 @@ async function getSessionToken(nickname, token, justRegistered) {
             }))
         }
     })
-    console.log(t)
 }

@@ -38,8 +38,7 @@
       })
       if (f.status == 200) {
           let token
-          await f.json().then(r => console.log(r))
-          console.log(`login token: ${token}`)
+          await f.json().then(r => token=r.token)
           localStorage.setItem('token', token)
           localStorage.setItem('user', nick)
           return true
