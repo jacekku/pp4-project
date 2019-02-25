@@ -37,9 +37,7 @@ async function validate(e) {
     }
     let f = await register(nickname, password1)
     if (f) {
-        // let token = await getSessionToken(nickname)
-        // localStorage.setItem("token",token)
-        // window.location.href = 'http://127.0.0.1:5500'
+        window.location.href = '/../'
     }
 }
 
@@ -51,13 +49,13 @@ function isEmpty(nickname, password1, password2) {
 
 function checkPassword(pass1, pass2) {
     if (pass1 != pass2) return "diff"
-    if (pass1.length < 10) return "short"
+    if (pass1.length < 8) return "short"
     let pattern = "^["
     pattern += "0-9"
     pattern += "a-z"
     pattern += "A-Z"
     pattern += "!@#$%^&*]"
-    pattern += "{10,}&"
+    pattern += "{8,}&"
     const re = new RegExp(pattern)
     return re.test(pass1)
 }
