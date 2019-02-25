@@ -6,7 +6,7 @@ function onLoad() {
     feedback = document.getElementById('feedback')
 }
 
-function validate(e) {
+async function validate(e) {
     e.preventDefault()
     const nickname = e.target[0].value
     //unhashedPassword
@@ -17,7 +17,7 @@ function validate(e) {
         feedback.innerHTML = "fill the fields"
         return false
     }
-    let reg=alreadyRegistered(nickname)
+    let reg=await alreadyRegistered(nickname)
     if(reg){
         feedback.innerHTML = "already in db"
         return false
@@ -36,17 +36,10 @@ function validate(e) {
         return false
     }
 
-    register(nickname, password1)
-    // window.location.href = 'http://127.0.0.1:5500'
+    await register(nickname, password1)
+    window.location.href = 'http://127.0.0.1:5500'
+    localStorage.setItem("user",nickname)
     return true
-}
-
-async function alreadyRegistered(nick) {
-    let res=await fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
-    let js =await res.json().then(r=>r)
-    if(js.length>0)return true
-    if(res.status==500)console.error("internal server error")
-    return false
 }
 
 function isEmpty(nickname, password1, password2) {
@@ -80,7 +73,7 @@ function register(nick, pass) {
             "Access-Control-Allow-Origin": "*"
         },
     }).then(response => {
-        console.log(response.json())
+        console.log(response)
     }).catch(response => {
         console.log(response)
     })
