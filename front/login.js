@@ -28,7 +28,7 @@ function login(nick,pass) {
             "Access-Control-Allow-Origin": "*"
         },
     }).then(response => {
-        console.log(response.json())
+        console.log(response)
     }).catch(response => {
         console.log(response)
     })
