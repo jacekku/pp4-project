@@ -35,6 +35,9 @@ function getNickname(request,response){
   client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
     (err, result) => {
       if (err) {
+        response.sendStatus(503)
+      }
+      if(result.rows.length==0){
         response.sendStatus(404)
       }
       response.status(200).json(result.rows)
