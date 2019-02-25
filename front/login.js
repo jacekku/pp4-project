@@ -1,11 +1,7 @@
-// type in password and nickname
-// check if registered
-// if registered
-//      and valid login
-//          
-document.addEventListener('load', onload)
+  
+window.addEventListener('load', onload)
 
-function onload(e) {
+function onload() {
     form = document.getElementById('login-form')
     form.addEventListener('submit',val)
     console.log(form)
@@ -15,7 +11,7 @@ function val(e){
     const nickname = e.target[0].value
     const password = e.target[1].value
     console.log(nickname,password)
-    // login(nickname,password)
+    login(nickname,password)
 }
 
 
