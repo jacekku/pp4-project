@@ -37,7 +37,7 @@ async function validate(e) {
     }
 
     await register(nickname, password1)
-    window.location.href = 'http://127.0.0.1:5500'
+    // window.location.href = 'http://127.0.0.1:5500'
     localStorage.setItem("user",nickname)
     return true
 }
@@ -61,7 +61,7 @@ function checkPassword(pass1, pass2) {
     return re.test(pass1)
 }
 
-function register(nick, pass) {
+async function register(nick, pass) {
     fetch('https://pp4-project.herokuapp.com/register', {
         method: 'POST',
         headers: {
