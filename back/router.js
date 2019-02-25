@@ -12,7 +12,7 @@ client.connect();
 function getMessages(request, response) {
   client.query('SELECT * from comments order by created_on asc;', (err, result) => {
     if (err) {
-      response.sendStatus(503)
+      response.sendStatus(500)
       console.error(err)
     }
     response.status(200).json(result.rows)
@@ -23,25 +23,24 @@ function postMessage(request,response){
   response.sendStatus(501)
 }
 function register(request,response){
-  client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
-    (err, result) => {
-      if (err){
-        response.sendStatus(503)
-        console.error(err)
-      }
-      if(result.rows.length!=0){
-        response.sendStatus(409)
-      }
-    })
-
   const data = request.headers.authorize
   const text = Buffer.from(data, 'base64').toString('ascii')
   const {nickname,passwordUnhashed} = JSON.parse(text)
   const {password,salt} = passwordManage.saltHashPassword(passwordUnhashed)
+  client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
+  (err, result) => {
+    if (err){
+      response.sendStatus(500)
+      console.error(err)
+    }
+    if(result.rows.length!=0){
+      response.sendStatus(409)
+    }
+  })
   client.query(`INSERT INTO users (nickname,password,salt) VALUES ('${nickname}','${password}','${salt}')`,
     (err, result) => {
       if (err){
-        response.sendStatus(503)
+        response.sendStatus(500)
         console.error(err)
       }
       response.sendStatus(201)
@@ -52,7 +51,7 @@ function getNickname(request,response){
   client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
     (err, result) => {
       if (err) {
-        response.sendStatus(503)
+        response.sendStatus(500)
         console.error(err)
       }
       if(result.rows.length==0){
@@ -69,7 +68,7 @@ function checkLogin(request,response){
   client.query(`SELECT password,salt FROM users where nickname = ${nickname}`,
   (err,result)=>{
     if (err) {
-      response.sendStatus(503)
+      response.sendStatus(500)
       console.error(err)
     }
     console.log(result.rows)
