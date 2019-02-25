@@ -14,6 +14,7 @@
           let loggedIn = await login(nickname, password)
           if (loggedIn) {
               feedback.innerHTML = "<font color='green'>Logged in</font>"
+              
           } else {
               feedback.innerHTML = "<font color='red'>Wrong user or password</font>"
           }

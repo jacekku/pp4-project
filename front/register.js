@@ -35,11 +35,12 @@ async function validate(e) {
         feedback.innerHTML = "password need to contain at least one number,letter(uppercase),letter(lowercase),special character"
         return false
     }
-
-    await register(nickname, password1)
-    // window.location.href = 'http://127.0.0.1:5500'
-    localStorage.setItem("user",nickname)
-    return true
+    let f = await register(nickname, password1)
+    if(f){
+        let token = await getSessionToken(nickname)
+        localStorage.setItem("token",token)
+        window.location.href = 'http://127.0.0.1:5500'
+    }
 }
 
 function isEmpty(nickname, password1, password2) {
@@ -62,7 +63,7 @@ function checkPassword(pass1, pass2) {
 }
 
 async function register(nick, pass) {
-    fetch('https://pp4-project.herokuapp.com/register', {
+    await fetch('https://pp4-project.herokuapp.com/register', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -73,9 +74,10 @@ async function register(nick, pass) {
             "Access-Control-Allow-Origin": "*"
         },
     }).then(response => {
+        //save to localStorage here
         console.info(response)
     }).catch(response => {
-        console.info(response)
+        // console.info(response)
     })
     return true
 }
