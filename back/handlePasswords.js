@@ -26,7 +26,11 @@ function checkPassword(password,passwordHash,salt){
     let saltHashNew = sha512(password, salt)
     return saltHashNew.passwordHash == passwordHash
 }
+function generateToken(){
+    return saltHashPassword(genRandomString(50)).password
+}
 module.exports={
     saltHashPassword,
-    checkPassword
+    checkPassword,
+    generateToken
 }
