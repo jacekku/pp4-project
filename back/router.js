@@ -44,9 +44,7 @@ function getNickname(request,response){
       if (err) {
         response.sendStatus(500)
         console.error(err)
-      }
-      if(result.rows.length==0){
-        response.sendStatus(404)
+        return false
       }
       response.status(200).json(result.rows)
     });

@@ -12,7 +12,6 @@ function validate(e) {
     //unhashedPassword
     const password1 = e.target[1].value
     const password2 = e.target[2].value
-    console.log(nickname, password1, password2)
     feedback.innerHTML = ""
     if (isEmpty(nickname, password1, password2)) {
         feedback.innerHTML = "fill the fields"
@@ -44,10 +43,10 @@ function validate(e) {
 
 async function alreadyRegistered(nick) {
     let res=await fetch(`https://pp4-project.herokuapp.com/user/${nick}`)
-    console.log(res)
-    if(res.status==200)return true
-    if(res.status==404)return false
-    if(res.status==500)return new Error("internal server error")
+    let js =await res.json().then(r=>r)
+    if(js.length>0)return true
+    if(res.status==500)console.error("internal server error")
+    return false
 }
 
 function isEmpty(nickname, password1, password2) {
