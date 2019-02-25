@@ -1,5 +1,7 @@
-window.addEventListener('load',onLoad)
-function validate(e){
+window.addEventListener('load',()=>{
+
+})
+async function validate(e){
     e.preventDefault()
     const nickname=e.target[0].value
     //unhashedPassword
@@ -7,7 +9,7 @@ function validate(e){
     if(nickname.length==0 || password.length==0){
         return false
     }
-    fetch('https://pp4-project.herokuapp.com/postmessage',{
+    await fetch('https://pp4-project.herokuapp.com/postmessage',{
         method:'POST',
         headers: {
             "Content-Type": "application/json",
@@ -33,10 +35,7 @@ function refreshChatBox(){
     clearChatBox()
     getComments()
 }
-function onLoad(){
-    form= document.getElementById('login-form')
-form.addEventListener('submit',validate)
-}
+
 function getComments(){
     fetch("https://pp4-project.herokuapp.com/postgres",{
     })
