@@ -24,7 +24,7 @@ function saltHashPassword(password){
 }
 function checkPassword(password,passwordHash,salt){
     let saltHashNew = sha512(password, salt)
-    return saltHashNew == passwordHash
+    return saltHashNew.passwordHash == passwordHash
 }
 module.exports={
     saltHashPassword,
