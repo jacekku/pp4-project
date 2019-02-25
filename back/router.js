@@ -45,7 +45,10 @@ function checkLogin(request,response){
   const {nickname,passwordUnhashed} = JSON.parse(text)
   client.query(`SELECT password,salt FROM users where nickname = ${nickname}`),
   (err,result)=>{
-    if(err)throw err;
+    if(err){
+      response.status(401)
+      //throw err;
+    }
     console.log(result.rows)
     res = passwordManage.checkPassword(passwordUnhashed,result.rows.password,result.rows.salt)
     if(res){
