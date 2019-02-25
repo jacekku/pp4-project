@@ -6,3 +6,6 @@
     min-height: 45%;
     
 }
+form > *{
+    display: block;
+}
