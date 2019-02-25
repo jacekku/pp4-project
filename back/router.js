@@ -60,6 +60,7 @@ module.exports = {
   getMessages,
   postMessage,
   register,
-  getNickname
+  getNickname,
+  checkLogin
 };
 

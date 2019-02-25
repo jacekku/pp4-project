@@ -13,6 +13,6 @@ app.get('/postgres', router.getMessages)
 app.get('/user/:nickname', router.getNickname)
 // app.post('/postmessage', router.postMessage)
 app.post('/register', router.register)
-app.post('/login', router.login)
+app.post('/login', router.checkLogin)
 
 app.listen(port, () => console.log(`Server listening at port: ${port}!`))
