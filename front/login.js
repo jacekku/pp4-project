@@ -6,12 +6,14 @@ function onload() {
     form.addEventListener('submit',val)
     console.log(form)
 }
-function val(e){
+async function val(e){
     e.preventDefault()
     const nickname = e.target[0].value
     const password = e.target[1].value
-    console.log(nickname,password)
-    login(nickname,password)
+    let reg = await alreadyRegistered(nickname)
+    console.log(`reg${reg}`)
+    if(reg){login(nickname,password)}
+    else {feedback.innerHTML='wrong user or password'}
 }
 
 
