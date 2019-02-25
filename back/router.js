@@ -39,6 +39,23 @@ function getNickname(request,response){
     });
 }
 
+function checkLogin(request,response){
+  const data = request.headers.authorize
+  const text = Buffer.from(data, 'base64').toString('ascii')
+  const {nickname,passwordUnhashed} = JSON.parse(text)
+  client.query(`SELECT password,salt FROM users where nickname = ${nickname}`),
+  (err,result)=>{
+    if(err)throw err;
+    console.log(result.rows)
+    res = passwordManage.checkPassword(passwordUnhashed,result.rows.password,result.rows.salt)
+    if(res){
+      response.status(200)
+    }else{
+      response.status(401)
+    }
+  }
+}
+
 module.exports = {
   getMessages,
   postMessage,
