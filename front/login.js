@@ -14,7 +14,7 @@
           let loggedIn = await login(nickname, password)
           if (loggedIn) {
               feedback.innerHTML = "<font color='green'>Logged in</font>"
-              
+
           } else {
               feedback.innerHTML = "<font color='red'>Wrong user or password</font>"
           }
@@ -25,7 +25,7 @@
 
 
   async function login(nick, pass) {
-      let f=await fetch(`https://pp4-project.herokuapp.com/login`, {
+      let f = await fetch(`https://pp4-project.herokuapp.com/login`, {
           method: 'POST',
           headers: {
               "Content-Type": "application/json",
@@ -36,6 +36,13 @@
               "Access-Control-Allow-Origin": "*"
           },
       })
-      if(f.status==200)return true
+      if (f.status == 200) {
+          let token
+          await f.json().then(r => console.log(r))
+          console.log(`login token: ${token}`)
+          localStorage.setItem('token', token)
+          localStorage.setItem('user', nick)
+          return true
+      }
       return false
   }
