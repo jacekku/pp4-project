@@ -21,22 +21,23 @@ function getMessages(request, response) {
 }
 
 async function postMessage(request, response) {
-  const {nickname,text} = request.body
+  const {
+    nickname,
+    text
+  } = request.body
   const data = request.headers.authorize
   const obj = Buffer.from(data, 'base64').toString('ascii')
-  const {
-    token
-  } = await JSON.parse(obj)[0]
-  console.log(nickname,text,token)
-  client.query(`SELECT user_id FROM users where nickname = '${nickname}' and token = '${token}'`,(err,res)=>{
+  const token = await JSON.parse(obj)
+  console.log(nickname, text, token)
+  client.query(`SELECT user_id FROM users where nickname = '${nickname}' and token = '${token}'`, (err, res) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
       return false
     }
     console.log(res.rows)
-    const id=res.rows.user_id
-    client.query(`INSERT INTO messages (user_id,message_text) VALUES (${id},'${text}')`,(err,res)=>{
+    const id = res.rows.user_id
+    client.query(`INSERT INTO messages (user_id,message_text) VALUES (${id},'${text}')`, (err, res) => {
       if (err) {
         response.sendStatus(500)
         console.error(err)
@@ -46,7 +47,7 @@ async function postMessage(request, response) {
       return true
     })
   })
-  
+
 }
 
 function register(request, response) {
