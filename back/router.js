@@ -11,7 +11,7 @@ client.connect();
 
 function getMessages(request, response) {
   const {id}=request.params
-  client.query(`SELECT messages.*,nickname from messages inner join users using(user_id) where message_id>${id} order by message_date asc;`, (err, result) => {
+  client.query('SELECT messages.*,nickname from messages inner join users using(user_id) where message_id>$1 order by message_date asc;',[id], (err, result) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
@@ -30,14 +30,14 @@ async function postMessage(request, response) {
   const data = request.headers.authorize
   const obj = Buffer.from(data, 'base64').toString('ascii')
   const {token} = await JSON.parse(obj)
-  client.query(`SELECT user_id FROM users where nickname = '${nickname}' and token = '${token}'`, (err, res) => {
+  client.query('SELECT user_id FROM users where nickname = $1 and token = $2',[nickname,token], (err, res) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
       return false
     }
     const {user_id} = res.rows[0]
-    client.query(`INSERT INTO messages (user_id,message_text) VALUES (${user_id},'${text}')`, (err, res) => {
+    client.query('INSERT INTO messages (user_id,message_text) VALUES ($1,$2)',[user_id,text], (err, res) => {
       if (err) {
         response.sendStatus(500)
         console.error(err)
@@ -62,7 +62,7 @@ function register(request, response) {
     salt
   } = passwordManage.saltHashPassword(passwordUnhashed)
   const newToken = passwordManage.generateToken()
-  client.query(`INSERT INTO users (nickname,password,salt,token) VALUES ('${nickname}','${password}','${salt}','${newToken}')`,
+  client.query('INSERT INTO users (nickname,password,salt,token) VALUES ($1,$2,$3,$4)',[nickname,password,salt,newToken],
     (err, result) => {
       if (err) {
         response.sendStatus(500)
@@ -77,7 +77,7 @@ function register(request, response) {
 
 function getNickname(request, response) {
   const nickname = request.params.nickname
-  client.query(`SELECT nickname FROM users where nickname = '${nickname}'`,
+  client.query('SELECT nickname FROM users where nickname = $1',[nickname],
     (err, result) => {
       if (err) {
         response.sendStatus(500)
@@ -95,7 +95,7 @@ function checkLogin(request, response) {
     nickname,
     passwordUnhashed
   } = JSON.parse(text)
-  client.query(`SELECT password,salt FROM users where nickname = '${nickname}'`,
+  client.query('SELECT password,salt FROM users where nickname = $1',[nickname],
     (err, result) => {
       if (err) {
         response.sendStatus(500)
@@ -108,7 +108,7 @@ function checkLogin(request, response) {
       res = passwordManage.checkPassword(passwordUnhashed, password, salt)
       if (res) {
         const newToken = passwordManage.generateToken()
-        client.query(`UPDATE users SET token = '${newToken}' WHERE nickname = '${nickname}'`, (err, res) => {
+        client.query('UPDATE users SET token = $1 WHERE nickname = $2',[newToken,nickname], (err, res) => {
           if (err) {
             response.sendStatus(500)
             console.error(err)
@@ -130,7 +130,7 @@ function getToken(request, response) {
     nickname,
     token
   } = JSON.parse(text)
-  client.query(`SELECT token FROM users where nickname = '${nickname}' and token = '${token}'`, (err, result) => {
+  client.query('SELECT token FROM users where nickname = $1 and token = $2',[nickname,token], (err, result) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
@@ -139,7 +139,7 @@ function getToken(request, response) {
         response.sendStatus(401)
       } else {
         const newToken = passwordManage.generateToken()
-        client.query(`UPDATE users SET token = '${newToken}' WHERE token = '${token}'`, (err, res) => {
+        client.query('UPDATE users SET token = $1 WHERE token = $2',[newToken,token], (err, res) => {
           if (err) {
             response.sendStatus(500)
             console.error(err)
