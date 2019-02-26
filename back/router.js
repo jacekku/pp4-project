@@ -11,7 +11,6 @@ client.connect();
 
 function getMessages(request, response) {
   const {id}=request.params
-  console.log(`id:${id}`)
   client.query(`SELECT messages.*,nickname from messages inner join users using(user_id) where message_id>${id} order by message_date asc;`, (err, result) => {
     if (err) {
       response.sendStatus(500)
@@ -31,14 +30,12 @@ async function postMessage(request, response) {
   const data = request.headers.authorize
   const obj = Buffer.from(data, 'base64').toString('ascii')
   const {token} = await JSON.parse(obj)
-  console.log(nickname, text, token)
   client.query(`SELECT user_id FROM users where nickname = '${nickname}' and token = '${token}'`, (err, res) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
       return false
     }
-    console.log(res.rows[0])
     const {user_id} = res.rows[0]
     client.query(`INSERT INTO messages (user_id,message_text) VALUES (${user_id},'${text}')`, (err, res) => {
       if (err) {
