@@ -7,14 +7,18 @@
     <script src="global.js"></script>
     <script src="checkToken.js"></script>
     <script src="chat.js"></script>
+    <link rel="stylesheet" href="sheet.css"/>
+
     <title>Chat</title>
 </head>
 <body>
-    <div>
-    <h1 id="greet">
-        Hello,
-    </h1>
+    <div id='user-header'>
+    <div id="greet">Hello, </div>
     <a href='..' onclick='logout()'>logout</a>
-</div>
+    </div>
+    <div id='messages'>
+    </div>
+    <input id="new-message" type='text' placeholder="Type your message here..."/>
+
 </body>
 </html>
