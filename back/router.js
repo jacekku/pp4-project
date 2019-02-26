@@ -10,7 +10,9 @@ const client = new Client({
 client.connect();
 
 function getMessages(request, response) {
-  client.query('SELECT messages.*,nickname from messages inner join users using(user_id) order by message_date asc;', (err, result) => {
+  const {id}=request.params
+  console.log(`id:${id}`)
+  client.query(`SELECT messages.*,nickname from messages inner join users using(user_id) where message_id>${id} order by message_date asc;`, (err, result) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
