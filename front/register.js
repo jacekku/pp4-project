@@ -19,7 +19,7 @@ async function validate(e) {
     }
     let reg = await alreadyRegistered(nickname)
     if (reg) {
-        feedback.innerHTML = "already in db"
+        feedback.innerHTML = "nickname is taken"
         return false
     }
     const passStatus = checkPassword(password1, password2)
@@ -28,11 +28,11 @@ async function validate(e) {
         return false
     }
     if (passStatus == "short") {
-        feedback.innerHTML = "password need to have at least 8 characters"
+        feedback.innerHTML = "password needs to have at least 8 characters"
         return false
     }
     if (passStatus == "missing") {
-        feedback.innerHTML = "password need to contain at least one number,letter(uppercase),letter(lowercase),special character"
+        feedback.innerHTML = "password needs to contain at least one number,letter(uppercase),letter(lowercase),special character"
         return false
     }
     let f = await register(nickname, password1)

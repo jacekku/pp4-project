@@ -1,4 +1,10 @@
-
+#block{
+    margin:auto;
+    width:fit-content;
+    text-align: center;
+    border: 3px solid #BDBDBD;
+    min-width: 15%;
+}
 #block *{
     display: block;
 }
@@ -30,4 +36,20 @@ body{
 }
 #user-header{
     display: inline;
+}
+.form{
+    margin: auto;
+    width:fit-content;
+    padding: 10px;
+    border: 3px solid #BDBDBD;
+    background: #39F;
+    text-align: center;
+}
+.form *{
+    margin: auto;
+    scale: 2px;
+}
+
+#login-form *{
+    margin: auto;
 }

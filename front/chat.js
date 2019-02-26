@@ -78,6 +78,7 @@ function getDiv(message_obj) {
 
 function appendMessages(messages) {
     messages.forEach(msg => messages_div.appendChild(getDiv(msg)))
+    
 }
 async function handleMessages() {
     const messages = await getMessages(last_message)||[]
@@ -85,5 +86,6 @@ async function handleMessages() {
         last_message = messages[messages.length - 1].message_id || -1
         // localStorage.setItem('last_message_id',last_message)
         appendMessages(messages)
+        messages_div.scrollBy(0,last_message*10)
     }
 }
