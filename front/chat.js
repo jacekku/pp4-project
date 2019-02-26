@@ -9,11 +9,16 @@ function logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
 }
-function getMessages(){
-    fetch('https://pp4-project.herokuapp.com/messages')
-        .then(res=>{
-            res.json().then(console.log)
+
+async function getMessages() {
+    let out
+    await fetch('https://pp4-project.herokuapp.com/messages')
+        .then(res => {
+            res.json().then(r=>out=r)
+        }).catch(err => {
+            console.info(err)
         })
+    return out
 }
 
 async function newMessage(message) {
