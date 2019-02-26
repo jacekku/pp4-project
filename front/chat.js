@@ -1,18 +1,32 @@
 window.addEventListener('load', () => {
     greet = document.getElementById('greet')
     greet.innerHTML += `${localStorage.getItem('user')}!`
-
-    messages_div = document.getElementById('messages')
+    var textarea = document.getElementById('new-message')
+    textarea.value=''
+    textarea.addEventListener('keyup',e=>{
+        if(e.keyCode==13){
+            if(textarea.value!=""){
+                let textVal=textarea.value
+                    .trim()
+                    .replace("\n$","")
+                newMessage(textVal)
+            }
+            textarea.value=''
+        }
+    })
+    var messages_div = document.getElementById('messages')
 })
+
+
 
 function logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
 }
 
-async function getMessages() {
+async function getMessages(id=-1) {
     let out
-    await fetch('https://pp4-project.herokuapp.com/messages')
+    await fetch(`https://pp4-project.herokuapp.com/messages/${id}`)
         .then(res => {
             res.json().then(r=>out=r)
         }).catch(err => {
