@@ -118,7 +118,7 @@ function getToken(request, response) {
             response.sendStatus(500)
             console.error(err)
           }
-          response.status(201).json({
+          response.status(200).json({
             'token': newToken
           })
         })
