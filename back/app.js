@@ -14,7 +14,7 @@ app.post('/register', router.register)
 app.post('/login', router.checkLogin)
 app.post('/token', router.getToken)
 
-app.get('/messages:id', router.getMessages)
+app.get('/messages/:id', router.getMessages)
 app.post('/postmessage', router.postMessage)
 
 app.listen(port, () => console.log(`Server listening at port: ${port}!`))
