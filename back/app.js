@@ -9,11 +9,12 @@ const port = process.env.PORT||5000
 app.use(cors({methods:"GET,POST"}))
 app.use(bodyParser.json())
 app.get('/', (req, res) => res.send('<h1>Hello World!</h1>'))
-app.get('/postgres', router.getMessages)
 app.get('/user/:nickname', router.getNickname)
-// app.post('/postmessage', router.postMessage)
 app.post('/register', router.register)
 app.post('/login', router.checkLogin)
 app.post('/token', router.getToken)
+
+app.get('/messages', router.getMessages)
+app.post('/postmessage', router.postMessage)
 
 app.listen(port, () => console.log(`Server listening at port: ${port}!`))

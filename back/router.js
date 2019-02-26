@@ -21,7 +21,29 @@ function getMessages(request, response) {
 }
 
 function postMessage(request, response) {
-  response.sendStatus(501)
+  const {nickname,text} = request.body
+  const data = request.headers.authorize
+  const text = Buffer.from(data, 'base64').toString('ascii')
+  const {
+    token
+  } = JSON.parse(text)
+  console.log(nickname,text)
+  client.query(`SELECT user_id FROM users where nickname = '${nickname}' and token = '${token}'`,(err,res)=>{
+    if (err) {
+      response.sendStatus(500)
+      console.error(err)
+    }
+    console.log(res.rows)
+    const id=res.rows.user_id
+    client.query(`INSERT INTO messages (user_id,message_text) VALUES (${id},'${text}')`,(err,res)=>{
+      if (err) {
+        response.sendStatus(500)
+        console.error(err)
+      }
+      response.sendStatus(201)
+    })
+  })
+  
 }
 
 function register(request, response) {
