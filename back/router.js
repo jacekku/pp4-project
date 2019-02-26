@@ -20,13 +20,13 @@ function getMessages(request, response) {
 
 }
 
-function postMessage(request, response) {
+async function postMessage(request, response) {
   const {nickname,text} = request.body
   const data = request.headers.authorize
   const obj = Buffer.from(data, 'base64').toString('ascii')
   const {
     token
-  } = JSON.parse(obj)[0]
+  } = await JSON.parse(obj)[0]
   console.log(nickname,text,token)
   client.query(`SELECT user_id FROM users where nickname = '${nickname}' and token = '${token}'`,(err,res)=>{
     if (err) {
