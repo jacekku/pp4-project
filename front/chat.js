@@ -53,7 +53,7 @@ async function newMessage(message) {
             'text': message
         })
     }).then(response => {
-        console.info(response)
+        // console.info(response)
     }).catch(response => {
         console.info(response)
     })
