@@ -20,7 +20,7 @@ async function validate(e){
         console.info(response)
     }).catch(response=>{
         console.info(response)
-        })
+    })
     
     return true
 }
