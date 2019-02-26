@@ -6,11 +6,12 @@ async function alreadyRegistered(nick) {
     if (res.status == 500) console.error("internal server error")
     return false
 }
-async function getSessionToken(nickname, token, justRegistered) {
-    if (token == null && !justRegistered) {
+async function checkToken(nickname, token) {
+    if (token == null) {
         return false
     }
     let t = await fetch('https://pp4-project.herokuapp.com/token', {
+        method:"POST",
         headers: {
             "Authorize": btoa(JSON.stringify({
                 "nickname": nickname,
@@ -18,4 +19,12 @@ async function getSessionToken(nickname, token, justRegistered) {
             }))
         }
     })
+    if(t.status==200 || t.status==201){
+        let newToken
+        await t.json().then(r=>newToken=r.token)
+        localStorage.setItem('token', newToken)
+        localStorage.setItem('user', nickname)
+        return true    
+    }
+    return false
 }
