@@ -10,10 +10,11 @@ const client = new Client({
 client.connect();
 
 function getMessages(request, response) {
-  client.query('SELECT * from comments order by created_on asc;', (err, result) => {
+  client.query('SELECT * from messages order by message_date asc;', (err, result) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
+      return false
     }
     response.status(200).json(result.rows)
   });
