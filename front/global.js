@@ -28,3 +28,7 @@ async function checkToken(nickname, token) {
     }
     return false
 }
+function sanitize(string){
+    return string
+                .replace(/<.*>/,'')
+}

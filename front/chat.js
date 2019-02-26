@@ -71,7 +71,7 @@ function getDiv(message_obj) {
     const div = document.createElement('div')
     div.innerHTML =
         `<div class='message'>
-    <font color='#aaa'>(${formated_date})</font><font color='#666'>${nickname}</font>:${message_text}
+    <font color='#aaa'>(${formated_date})</font><font color='#666'>${nickname}</font>:${sanitize(message_text)}
     </div>`
     return div
 }
@@ -86,6 +86,6 @@ async function handleMessages() {
         last_message = messages[messages.length - 1].message_id || -1
         // localStorage.setItem('last_message_id',last_message)
         appendMessages(messages)
-        messages_div.scrollBy(0,last_message*10)
+        messages_div.scrollBy(0,last_message*100)
     }
 }
