@@ -15,16 +15,18 @@ body{
     width:100%;
     max-height:70%;
     border:3px solid #BDBDBD;
-    min-height: 70vh;
+    min-height: 80vh;
     font-size: 4vh;
 }
 #new-message{
-    height: 10vh;
+    min-height: 10vh;
     width:100%;
     font-size: 4vh;
     margin: 1;
     padding: 0px;
     border:3px solid #BDBDBD;
+    resize: none;
+    
 }
 #user-header{
     display: inline;
