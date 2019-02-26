@@ -82,7 +82,7 @@ function checkLogin(request, response) {
       res = passwordManage.checkPassword(passwordUnhashed, password, salt)
       if (res) {
         const newToken = passwordManage.generateToken()
-        client.query(`UPDATE users SET token = '${newToken}' WHERE user = '${nickname}'`, (err, res) => {
+        client.query(`UPDATE users SET token = '${newToken}' WHERE nickname = '${nickname}'`, (err, res) => {
           if (err) {
             response.sendStatus(500)
             console.error(err)
