@@ -37,7 +37,7 @@ async function validate(e) {
     }
     let f = await register(nickname, password1)
     if (f) {
-        window.location.href = 'https://jacekku.github.io/pp4-project/'
+        window.location.href='..'
     }
 }
 
