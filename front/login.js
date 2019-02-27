@@ -11,6 +11,7 @@
       const password = e.target[1].value
       let reg = await alreadyRegistered(nickname)
       if (reg) {
+          feedback.innerHTML = "logging in... please wait..."
           let loggedIn = await login(nickname, password)
           if (loggedIn) {
               feedback.innerHTML = "<font color='green'>Logged in</font>"
