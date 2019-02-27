@@ -6,7 +6,7 @@ const router = require('./router.js')
 const app = express()
 const port = process.env.PORT||5000
 
-app.use(cors({methods:"GET,POST",origin:"jacekku.github.com"}))
+app.use(cors({methods:"GET,POST",origin:"https://jacekku.github.io"}))
 app.use(bodyParser.json())
 app.get('/', (req, res) => res.send('<h1>Hello World!</h1>'))
 app.get('/user/:nickname', router.getNickname)
