@@ -43,7 +43,7 @@ body{
     height: 12em;
     padding: 10px;
     border: 3px solid #BDBDBD;
-    background: #39F;
+    background: rgb(185, 220, 255);
     text-align: center;
 }
 .form *{
