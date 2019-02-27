@@ -11,7 +11,7 @@ client.connect();
 
 function getMessages(request, response) {
   const {id}=request.params
-  client.query('SELECT messages.*,nickname from messages inner join users using(user_id) where message_id>$1 order by message_date asc;',[id], (err, result) => {
+  client.query('SELECT messages.*,nickname,rank_color from messages inner join users using(user_id) inner join ranks on(status=rank) where message_id>$1 order by message_date asc;',[id], (err, result) => {
     if (err) {
       response.sendStatus(500)
       console.error(err)
