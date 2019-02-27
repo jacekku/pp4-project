@@ -68,7 +68,6 @@ function getDiv(message_obj) {
         message_text,
         rank_color
     } = message_obj
-    console.log(message_obj)
     const formated_date = new Date(message_date).toLocaleString()
     const div = document.createElement('div')
     div.innerHTML =
