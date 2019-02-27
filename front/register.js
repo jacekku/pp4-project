@@ -35,6 +35,23 @@ async function validate(e) {
         feedback.innerHTML = "password needs to contain at least one number,letter(uppercase),letter(lowercase),special character"
         return false
     }
+    if(passStatus =="numbers"){
+        feedback.innerHTML = "password needs to contain at least one number"
+        return false
+    }
+    if(passStatus=="lower_letter"){
+        feedback.innerHTML = "password needs to contain at least letter(lowercase)"
+        return false
+    }
+    if(passStatus=="upper_letter"){
+        feedback.innerHTML = "password needs to contain at least letter(uppercase)"
+        return false
+    }
+    if(passStatus=="special"){
+        feedback.innerHTML = "password needs to contain at least one special character [ ! @ # $ % ^ & * ]"
+        return false
+    }
+    feedback.innerHTML = "please wait..."
     let f = await register(nickname, password1)
     if (f) {
         window.location.href='..'
@@ -50,14 +67,11 @@ function isEmpty(nickname, password1, password2) {
 function checkPassword(pass1, pass2) {
     if (pass1 != pass2) return "diff"
     if (pass1.length < 8) return "short"
-    let pattern = "^["
-    pattern += "0-9"
-    pattern += "a-z"
-    pattern += "A-Z"
-    pattern += "!@#$%^&*]"
-    pattern += "{8,}&"
-    const re = new RegExp(pattern)
-    return re.test(pass1)
+    if(!/[0-9]/.test(pass1))return "numbers"
+    if(!/[a-z]/.test(pass1))return "lower_letter"
+    if(!/[A-Z]/.test(pass1))return "upper_letter"
+    if(!/[!@#$%^&*]/.test(pass1))return "special"
+    return true
 }
 
 async function register(nick, pass) {
