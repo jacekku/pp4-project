@@ -17,6 +17,11 @@ async function validate(e) {
         feedback.innerHTML = "fill the fields"
         return false
     }
+    if(nickname.length>30){
+        feedback.innerHTML = "nickname needs to be no longer than 30 characters"
+        return false
+
+    }
     let reg = await alreadyRegistered(nickname)
     if (reg) {
         feedback.innerHTML = "nickname is taken"
