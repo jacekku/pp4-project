@@ -65,13 +65,15 @@ function getDiv(message_obj) {
     const {
         nickname,
         message_date,
-        message_text
+        message_text,
+        rank_color
     } = message_obj
+    console.log(message_obj)
     const formated_date = new Date(message_date).toLocaleString()
     const div = document.createElement('div')
     div.innerHTML =
         `<div class='message'>
-    <font color='#aaa'>(${formated_date})</font><font color='#666'>${nickname}</font>:${sanitize(message_text)}
+    <font color='#aaa'>(${formated_date})</font><font color='${rank_color}'>${nickname}</font>:${sanitize(message_text)}
     </div>`
     return div
 }
